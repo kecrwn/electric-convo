@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Electric-convo</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <main class="main-container">
+  <svg class="svg-container">
+    <defs>
+      <filter id="turbulent-displace" colorInterpolationFilters="sRGB" x="-20%" y="-20%" width="140%" height="140%">
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise1" seed="1" />
+        <feOffset in="noise1" dx="0" dy="0" result="offsetNoise1">
+          <animate attributeName="dy" values="700; 0" dur="6s" repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise2" seed="1" />
+        <feOffset in="noise2" dx="0" dy="0" result="offsetNoise2">
+          <animate attributeName="dy" values="0; -700" dur="6s" repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise1" seed="2" />
+        <feOffset in="noise1" dx="0" dy="0" result="offsetNoise3">
+          <animate attributeName="dx" values="490; 0" dur="6s" repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="10" result="noise2" seed="2" />
+        <feOffset in="noise2" dx="0" dy="0" result="offsetNoise4">
+          <animate attributeName="dx" values="0; -490" dur="6s" repeatCount="indefinite" calcMode="linear" />
+        </feOffset>
+
+        <feComposite in="offsetNoise1" in2="offsetNoise2" result="part1" />
+        <feComposite in="offsetNoise3" in2="offsetNoise4" result="part2" />
+        <feBlend in="part1" in2="part2" mode="color-dodge" result="combinedNoise" />
+
+        <feDisplacementMap in="SourceGraphic" in2="combinedNoise" scale="30" xChannelSelector="R" yChannelSelector="B" />
+      </filter>
+    </defs>
+  </svg>
+
+  <form class="card-states-form">
+    <input type="radio" name="card-state" id="state-1" checked>
+    <input type="radio" name="card-state" id="state-2">
+    <input type="radio" name="card-state" id="state-3">
+    <input type="radio" name="card-state" id="state-4">
+    <input type="radio" name="card-state" id="state-5"> 
+
+    <div class="card-container">
+      <div class="inner-container">
+        <div class="border-outer">
+          <div class="main-card"></div>
+        </div>
+        <div class="glow-layer-1"></div>
+        <div class="glow-layer-2"></div>
+      </div>
+
+      <div class="overlay-1"></div>
+      <div class="overlay-2"></div>
+      <div class="background-glow"></div>
+
+      <div class="content-container state-1-content">
+        <div class="content-top">
+          <label for="state-2" class="scrollbar-glass flip-button">
+            New Phase
+          </label>
+          <p class="title">My Heart Knew...</p>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="content-bottom">
+          <p class="description">From the moment I saw you, my future became clear.</p>
+        </div>
+      </div>
+
+      <div class="content-container state-2-content">
+        <div class="content-top">
+          <label for="state-3" class="scrollbar-glass flip-button">
+            Next Level
+          </label>
+          <p class="title heart-title">Dhuk <span class="heart-emoji">💗</span> Dhukk</p>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="content-bottom">
+          <p class="description">This rhythm is just for you, forever beating.</p>
+        </div>
+      </div>
+
+      <div class="content-container state-3-content">
+        <div class="content-top">
+          <label for="state-4" class="scrollbar-glass flip-button">
+            Final Promise
+          </label>
+          <p class="title">I Will Be Yours Forever</p>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="content-bottom">
+          <p class="description">A promise sealed with the fire in my soul.</p>
+        </div>
+      </div>
+
+      <div class="content-container state-4-content">
+        <div class="content-top">
+          <label for="state-5" class="scrollbar-glass flip-button"> 
+            Our Journey
+          </label>
+          <p class="title">My Peach 🍑</p>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="content-bottom">
+          <p class="description">The sweetest reward in my life.</p>
+        </div>
+      </div>
+
+      <div class="content-container state-5-content">
+        <div class="content-top">
+          <label for="state-1" class="scrollbar-glass flip-button">
+            Back to Start
+          </label>
+          <p class="title">Together</p>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="content-middle image-section">
+          <img src="assets/together.png" alt="Together" class="together-image"> 
+        </div>
+
+        <div class="content-bottom">
+          <p class="description">Forever cherished, forever us.</p>
+        </div>
+
+        <audio id="background-music" loop>
+          <source src="assets/together.mp3" type="audio/mpeg"> 
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+
+    </div>
+  </form>
+</main>
+
+<script src="script.js"></script>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>

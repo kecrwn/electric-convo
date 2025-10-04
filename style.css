@@ -1,0 +1,464 @@
+/* Reset and base styles */
+
+/* CSS Variables for 5 States */
+:root {
+  /* Default/Initial setup */
+  --color-neutral-900: oklch(0.185 0 0);
+
+  /* State 2 (Electric Pink) */
+  --state-2-border-color: #ff33a1;
+  --state-2-light-color: oklch(from var(--state-2-border-color) l c h);
+  --state-2-gradient-color: oklch(from var(--state-2-border-color) 0.3 calc(c / 2) h / 0.4);
+
+  /* State 3 (Reddish) */
+  --state-3-border-color: #e54b4b;
+  --state-3-light-color: oklch(from var(--state-3-border-color) l c h);
+  --state-3-gradient-color: oklch(from var(--state-3-border-color) 0.3 calc(c / 2) h / 0.4);
+
+  /* State 4 (Pinkish) */
+  --state-4-border-color: #ff69b4;
+  --state-4-light-color: oklch(from var(--state-4-border-color) l c h);
+  --state-4-gradient-color: oklch(from var(--state-4-border-color) 0.3 calc(c / 2) h / 0.4);
+
+  /* State 5 (Warm Gold/Yellow for "Together" page) */
+  --state-5-border-color: #ffc107; /* A warm gold */
+  --state-5-light-color: oklch(from var(--state-5-border-color) l c h);
+  --state-5-gradient-color: oklch(from var(--state-5-border-color) 0.3 calc(c / 2) h / 0.4);
+
+
+  /* Dynamic variables (Initial state 1 values - will be overridden by animation) */
+  --current-border-color: #dd8448; /* Placeholder for animation */
+  --current-light-color: oklch(from var(--current-border-color) l c h); /* Placeholder for animation */
+  --current-gradient-color: oklch(from var(--current-border-color) 0.3 calc(c / 2) h / 0.4); /* Placeholder for animation */
+}
+
+/* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: oklch(0.145 0 0);
+  color: oklch(0.985 0 0);
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Keyframes for Rainbow Animation */
+@keyframes rainbow-border {
+  0% { --current-border-color: #ff0000; }
+  16% { --current-border-color: #ff7f00; }
+  33% { --current-border-color: #ffff00; }
+  50% { --current-border-color: #00ff00; }
+  66% { --current-border-color: #0000ff; }
+  83% { --current-border-color: #4b0082; }
+  100% { --current-border-color: #ff0000; }
+}
+
+/* Keyframes for Subtle Pulsating Glow */
+@keyframes pulse-glow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.4; }
+}
+
+/* Keyframes for Glitch on state change */
+@keyframes border-glitch {
+    0%, 100% { transform: translate(0); }
+    10% { transform: translate(-1px, 1px); }
+    20% { transform: translate(1px, -1px); }
+    30% { transform: translate(0); }
+    40% { transform: translate(-2px, 0); }
+    50% { transform: translate(2px, 0); }
+    60% { transform: translate(0); }
+    70% { transform: translate(0, 1px); }
+    80% { transform: translate(0, -1px); }
+    90% { transform: translate(0); }
+}
+
+/* Main container */
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+/* SVG positioning */
+.svg-container {
+  position: absolute;
+}
+
+/* Radio button form and inputs (hidden) */
+.card-states-form {
+  position: relative;
+}
+
+.card-states-form input[type="radio"] {
+  display: none;
+}
+
+/* State-Dependent Color Logic */
+
+/* State 1: Rainbow Animation */
+#state-1:checked ~ .card-container {
+  /* Start the animation when state 1 is active */
+  animation: rainbow-border 6s linear infinite;
+}
+#state-1:checked ~ .card-container .glow-layer-2,
+#state-1:checked ~ .card-container .background-glow {
+    /* For glow layers, we update the light color variable in CSS */
+    --current-light-color: oklch(from var(--current-border-color) l c h);
+}
+
+
+/* State 2: Electric Pink */
+#state-2:checked ~ .card-container {
+  animation: none; /* Stop rainbow animation */
+  --current-border-color: var(--state-2-border-color);
+  --current-light-color: var(--state-2-light-color);
+  --current-gradient-color: var(--state-2-gradient-color);
+}
+
+/* State 3: Reddish */
+#state-3:checked ~ .card-container {
+  animation: none; /* Stop rainbow animation */
+  --current-border-color: var(--state-3-border-color);
+  --current-light-color: var(--state-3-light-color);
+  --current-gradient-color: var(--state-3-gradient-color);
+}
+
+/* State 4: Pinkish */
+#state-4:checked ~ .card-container {
+  animation: none; /* Stop rainbow animation */
+  --current-border-color: var(--state-4-border-color);
+  --current-light-color: var(--state-4-light-color);
+  --current-gradient-color: var(--state-4-gradient-color);
+}
+
+/* State 5: Warm Gold for the "Together" page */
+#state-5:checked ~ .card-container {
+  animation: none; /* Stop rainbow animation */
+  --current-border-color: var(--state-5-border-color);
+  --current-light-color: var(--state-5-light-color);
+  --current-gradient-color: var(--state-5-gradient-color);
+}
+
+
+/* Apply glitch effect on state change (quick animation then reset) */
+.card-states-form input[type="radio"]:checked ~ .card-container .main-card {
+    animation: border-glitch 0.4s ease-in-out;
+}
+
+
+/* Card container */
+.card-container {
+  /* Use the dynamic variables */
+  padding: 2px;
+  border-radius: 24px;
+  position: relative;
+  transition: all 0.5s ease; /* Smooth transition for color changes */
+  background: linear-gradient(
+      -30deg,
+      var(--current-gradient-color),
+      transparent,
+      var(--current-gradient-color)
+    ),
+    linear-gradient(
+      to bottom,
+      var(--color-neutral-900),
+      var(--color-neutral-900)
+    );
+}
+
+/* Inner container */
+.inner-container {
+  position: relative;
+}
+
+/* Border layers */
+.border-outer {
+  /* Use dynamic border color with reduced opacity */
+  border: 2px solid color-mix(in srgb, var(--current-border-color) 40%, transparent); /* Reduced opacity for subtlety */
+  border-radius: 24px;
+  padding-right: 4px;
+  padding-bottom: 4px;
+  transition: border-color 0.5s ease;
+}
+
+.main-card {
+  width: 350px;
+  height: 500px;
+  border-radius: 24px;
+  /* Use dynamic border color */
+  border: 2px solid var(--current-border-color);
+  margin-top: -4px;
+  margin-left: -4px;
+  filter: url(#turbulent-displace);
+  transition: border-color 0.5s ease;
+}
+
+/* Glow effects */
+.glow-layer-1 {
+  /* Use dynamic border color with reduced opacity */
+  border: 2px solid color-mix(in srgb, var(--current-border-color) 70%, transparent);
+  border-radius: 24px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  filter: blur(0.5px); /* Reduced blur for sharper light */
+  transition: border-color 0.5s ease;
+}
+
+.glow-layer-2 {
+  /* Use dynamic light color */
+  border: 2px solid var(--current-light-color);
+  border-radius: 24px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  filter: blur(3px); /* Slightly reduced blur */
+  transition: border-color 0.5s ease;
+}
+
+/* Overlay effects (no change needed) */
+.overlay-1 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 24px;
+  opacity: 1;
+  mix-blend-mode: overlay;
+  transform: scale(1.1);
+  filter: blur(16px);
+  background: linear-gradient(
+    -30deg,
+    white,
+    transparent 30%,
+    transparent 70%,
+    white
+  );
+}
+
+.overlay-2 {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 24px;
+  opacity: 0.5;
+  mix-blend-mode: overlay;
+  transform: scale(1.1);
+  filter: blur(16px);
+  background: linear-gradient(
+    -30deg,
+    white,
+    transparent 30%,
+    transparent 70%,
+    white
+  );
+}
+
+/* Background glow */
+.background-glow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 24px;
+  filter: blur(32px);
+  transform: scale(1.1);
+  /* Added pulse animation */
+  animation: pulse-glow 3s infinite alternate; 
+  z-index: -1;
+  /* Use dynamic color variables */
+  background: linear-gradient(
+    -30deg,
+    var(--current-light-color),
+    transparent,
+    var(--current-border-color)
+  );
+  transition: background 0.5s ease;
+}
+
+/* Content container visibility */
+.content-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  opacity: 0; /* Hide all content containers by default */
+  pointer-events: none;
+  transition: opacity 0.5s ease; /* Fade in/out effect for 'flip' */
+}
+
+/* Show the currently selected content container */
+#state-1:checked ~ .card-container .state-1-content,
+#state-2:checked ~ .card-container .state-2-content,
+#state-3:checked ~ .card-container .state-3-content,
+#state-4:checked ~ .card-container .state-4-content,
+#state-5:checked ~ .card-container .state-5-content { /* Added state 5 */
+  opacity: 1;
+  pointer-events: all;
+}
+
+
+/* Content sections */
+.content-top {
+  display: flex;
+  flex-direction: column;
+  padding: 48px;
+  padding-bottom: 16px;
+  height: 100%;
+}
+
+/* New section for the image */
+.image-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1; /* Allows it to take available space */
+  padding: 0 48px; /* Maintain side padding */
+}
+
+.content-bottom {
+  display: flex;
+  flex-direction: column;
+  padding: 48px;
+  padding-top: 16px;
+}
+
+/* Scrollbar glass component is now a 'flip-button' label */
+.flip-button {
+  cursor: pointer; /* Makes it look clickable */
+}
+
+.scrollbar-glass {
+  background: radial-gradient(
+      47.2% 50% at 50.39% 88.37%,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    rgba(255, 255, 255, 0.04);
+  position: relative;
+  transition: background 0.3s ease;
+  border-radius: 14px;
+  width: fit-content;
+  height: fit-content;
+  padding: 8px 16px;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  /* Ensure flip button is above other content */
+  z-index: 10;
+}
+
+.scrollbar-glass:hover {
+  background: radial-gradient(
+      47.2% 50% at 50.39% 88.37%,
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    rgba(255, 255, 255, 0.08);
+}
+
+.scrollbar-glass::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1px;
+  background: linear-gradient(
+    150deg,
+    rgba(255, 255, 255, 0.48) 16.73%,
+    rgba(255, 255, 255, 0.08) 30.2%,
+    rgba(255, 255, 255, 0.08) 68.2%,
+    rgba(255, 255, 255, 0.6) 81.89%
+  );
+  border-radius: inherit;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+/* Typography */
+.title {
+  font-size: 40px; /* Slightly increased size */
+  font-weight: 700; /* Bolder title */
+  margin-top: auto;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.4); /* Subtle text glow */
+}
+
+.description {
+  opacity: 0.6; /* Slightly increased visibility */
+}
+
+/* Custom styling for Dhuk Dhukk state to center and enlarge the emoji */
+.heart-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px; /* Space between words and emoji */
+  margin-top: auto;
+}
+
+.heart-emoji {
+  font-size: 80px; /* Even bigger emoji */
+}
+
+/* Styling for the image on the "Together" page */
+.together-image {
+  max-width: 100%; /* Ensure image fits within the card */
+  max-height: 100%; /* Ensure image fits within the card */
+  object-fit: contain; /* Maintain aspect ratio without cropping */
+  border-radius: 12px; /* Soften edges of the image */
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3), 0 0 30px var(--current-border-color); /* Add a subtle glow around the image */
+  transition: box-shadow 0.5s ease;
+}
+
+
+/* Divider */
+.divider {
+  margin-top: auto;
+  border: none;
+  height: 1px;
+  background-color: currentColor;
+  opacity: 0.15; /* Slightly more visible */
+  mask-image: linear-gradient(to right, transparent, black, transparent);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black,
+    transparent
+  );
+}
